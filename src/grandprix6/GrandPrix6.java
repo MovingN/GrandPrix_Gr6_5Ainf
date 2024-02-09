@@ -6,7 +6,7 @@ package grandprix6;
 
 /**
  *
- * @author utente
+ * @author federico,giorgio,razvan
  */
 public class GrandPrix6 {
 
