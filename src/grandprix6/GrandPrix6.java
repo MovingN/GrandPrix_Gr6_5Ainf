@@ -16,5 +16,8 @@ public class GrandPrix6 {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-    
+
+    Giocatore g1 = new Giocatore("Moving", "bruCoLA");
+
+    g1.start ();
 }
