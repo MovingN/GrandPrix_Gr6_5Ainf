@@ -8,7 +8,7 @@ package grandprix6;
  *
  * @author federico
  */
-public class Pilota {
+public class Pilota extends Thread{
 
     //inserire dati dei piloti in un CSV
     private String nome;
@@ -22,7 +22,7 @@ public class Pilota {
         this.cognome = cognome;
         this.nazionalita = nazionalita;
         this.numeroMacchina = numeroMacchina;
-        auto = new Auto[25];//far cmunicare giocatore e pilota per settare il numero di auto in griglia
+        auto = new Auto[25];//far comunicare giocatore e pilota per settare il numero di auto in griglia
     }
 
     public String getNome() {
