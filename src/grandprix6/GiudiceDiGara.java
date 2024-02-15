@@ -8,7 +8,7 @@ package grandprix6;
  *
  * @author federico,giorgio,razvan
  */
-public class GiudiceDiGara {
+public class GiudiceDiGara extends Thread {
 
     private String nome;
     private String cognome;

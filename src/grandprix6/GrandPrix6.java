@@ -14,10 +14,10 @@ public class GrandPrix6 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        Giocatore g1 = new Giocatore("Moving", "bruCoLA");
+
+        g1.start();
     }
 
-    Giocatore g1 = new Giocatore("Moving", "bruCoLA");
-
-    g1.start ();
 }
