@@ -8,7 +8,7 @@ package grandprix6;
  *
  * @author federico
  */
-public class Pilota extends Thread{
+public class Pilota extends Thread {
 
     //inserire dati dei piloti in un CSV
     private String nome;
