@@ -1,6 +1,6 @@
 <h1>Progetto GranPrix Gruppo 6</h1>
 <p>Creato da Drosu Razvan, Martinelli Federico e Nucciarelli Giorgio</p>
-<p>Ecco i nostri tag @SecretSatyr @fexmart05 @MovingN</p>
+<p>Ecco i nostri tag <a href="https://github.com/SecretSatyr" >@SecretSatyr</a> <a href="https://github.com/fexmart05">@fexmart05</a> <a href="https://github.com/MovingN">@MovingN</a></p>
 <h2>Descrizione</h2>
 <p>Questo progetto è stato commissionato dalle professoresse Ciuchetti e Fioroni.<br>Il progetto coinsiste nella creazione di un programma prettamente eseguito in  un terminale,<br> dove l'utente può gestire una gara tra delle automobili, che vengono scelte dall'utente,<br> insieme alla lunghezza della gara ed al numero di giri e pit stop, ogni macchina può essere manomessa dall'utente, ed avremo un giudice di gara che si occuperà di segnalare le posizioni/inizio/fine ed anomalie avvenute nella gara. </p>
 <h2>Struttura</h2>
