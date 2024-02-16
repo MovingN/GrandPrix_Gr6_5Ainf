@@ -4,6 +4,9 @@
  */
 package grandprix6;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author federico,giorgio,razvan
@@ -57,4 +60,15 @@ public class GiudiceDiGara extends Thread {
     public void setNome(String nome) {
         this.nome = nome;
     }
+//    provare a gara conlusa:
+//        public void scriviClassificaSuFileCSV(String classifica) {
+//        String filePath = null;
+//        try (FileWriter writer = new FileWriter(filePath)) {
+//            writer.write(classifica);
+//            System.out.println("Classifica salvata su file: " + filePath);
+//        } catch (IOException e) {
+//            System.err.println("Errore durante la scrittura del file CSV: " + e.getMessage());
+//            // Stampa la traccia dell'eccezione per debug
+//        }
+//    }
 }
