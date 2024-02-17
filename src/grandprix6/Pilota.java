@@ -16,13 +16,15 @@ public class Pilota extends Thread {
     private String nazionalita;
     private int numeroMacchina;
     private Auto auto[];
+    
+    public static int MAX_AUTO_IN_GRIGLIA = 25;
 
     public Pilota(String nome, String cognome, String nazionalita, int numeroMacchina) {
         this.nome = nome;
         this.cognome = cognome;
         this.nazionalita = nazionalita;
         this.numeroMacchina = numeroMacchina;
-        auto = new Auto[25];//far comunicare giocatore e pilota per settare il numero di auto in griglia
+        auto = new Auto[MAX_AUTO_IN_GRIGLIA];//far comunicare giocatore e pilota per settare il numero di auto in griglia
     }
 
     public String getNome() {

@@ -4,6 +4,7 @@
  */
 package grandprix6;
 
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -20,6 +21,10 @@ public class Giocatore extends Thread {
 
     private String nickname;
     private String password;
+    GiudiceDiGara GDC;
+    Circuito circ;
+    Pilota pil;
+    Auto aut;
     Scanner scelta = new Scanner(System.in);
 
     public Giocatore(String nickname, String password) {
@@ -30,46 +35,55 @@ public class Giocatore extends Thread {
 
     @Override
     public void run() { //run sostituisce il metodo gara nell'UML
-        int i = 0;
-        while (i < 2) {
+        int n = 0;
+        while (n < 2) {
             System.out.println("Inserisca il numero di macchine:");
-            int nMacchine = scelta.nextInt();
-            if (nMacchine < 2) {
+            n = scelta.nextInt();
+            if (n < 2) {
                 System.out.println("Inserisca almeno 2 macchine");
             } else {
-                i = 2;
+                scegliNumeroAutoInGriglia(n);
+                n = 2;
             }
         }
-        i = 0;
-        while (i < 1) {
+        n = 0;
+        while (n < 1) {
             System.out.println("Inserisca la lunghezza del circuito:");
-            int lunghezza_circ = scelta.nextInt();
-            if (lunghezza_circ < 1) {
+            n = scelta.nextInt();
+            if (n < 1) {
                 System.out.println("La lunghezza minima del circuito e' di almeno 1 KM");
             } else {
-                i = 2;
+                circ.setLunghezza(n);
+                n = 2;
             }
         }
-        i = 0;
-        while (i < 1) {
+        n = 0;
+        while (n < 1) {
             System.out.println("Inserisca il numero di giri:");
-            int laps = scelta.nextInt();
-            if (laps < 1) {
+            n = scelta.nextInt();
+            if (n < 1) {
                 System.out.println("La gara dovra' durare almeno 1 giro");
             } else {
-                i = 2;
+                circ.setGiri(n);
+                n = 2;
             }
         }
-        while (i < 0) {
+        n = -1;
+        while (n < 0) {
             System.out.println("Inserisca il numero di pit stop:");
-            int pit = scelta.nextInt();
-            if (pit < 0) {
+            n = scelta.nextInt();
+            if (n < 0) {
                 System.out.println("La gara potra' avere come minimo 0 pit stop ");
             } else {
-                i = 1;
+                circ.setPit(n);
+                n = 1;
             }
         }
         System.out.println("Configurazione gara terminata");
+    }
+
+    public void scegliNumeroAutoInGriglia(int numeroAuto) {
+        Pilota.MAX_AUTO_IN_GRIGLIA = numeroAuto;
     }
 
     public void cheat() {
