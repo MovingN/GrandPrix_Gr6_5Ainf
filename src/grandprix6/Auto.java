@@ -4,6 +4,8 @@
  */
 package grandprix6;
 
+import java.util.Random;
+
 /**
  *
  * @author federico,giorgio,razvan
@@ -41,6 +43,9 @@ public class Auto {
     }
 
     public void setVelocita(int velocita) {
-        this.velocita = velocita;
+        int min = 120;
+        int max = 350;
+        int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
+        this.velocita = random_int;
     }
 }

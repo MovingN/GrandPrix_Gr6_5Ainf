@@ -5,6 +5,7 @@
 package grandprix6;
 
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -22,7 +23,7 @@ public class Giocatore extends Thread {
     private String password;
     GiudiceDiGara GDC;
     Circuito circ;
-    Pilota pil;
+    Pilota pil[];
     Auto aut;
     Scanner scelta = new Scanner(System.in);
 
@@ -43,6 +44,21 @@ public class Giocatore extends Thread {
             } else {
                 n = 2;
                 scegliNAuto(nMacchine);
+                for (int i = 0; i < nMacchine; i++) {
+                    System.out.println("Inserisca il nome del pilota:");
+                    pil[i].setNome(scelta.nextLine());
+                    System.out.println("Inserisca il cognome del pilota:");
+                    pil[i].setCognome(scelta.nextLine());
+                    System.out.println("Inserisca la nazionalita' del pilota:");
+                    pil[i].setNazionalita(scelta.nextLine());
+                    System.out.println("Inserisca il numero del pilota:");
+                    pil[i].setNumeroMacchina(scelta.nextInt());
+                    System.out.println("Inserisca la marca della sua auto:");
+                    pil[i].auto[i].setMarca(scelta.nextLine());
+                    System.out.println("Inserisca il modello della macchina:");
+                    pil[i].auto[i].setModello(scelta.nextLine());
+                    System.out.println("La macchina andra' a" + pil[i].auto[i].getVelocita() + "Km/h");
+                }
             }
         }
         n = 0;
@@ -85,10 +101,12 @@ public class Giocatore extends Thread {
 
     public void cheat() {
         System.out.println("Seleziona il numero della macchina da truccare");
-        int x=scelta.nextInt();
+        int x = scelta.nextInt();
         //inserire un for che perlustri tutti i numeri delle macchine
-        //if che verifichi se il numero della macchina corrisponde a quello in input
-        //aut[].setVelocita(400);
+        // for(int i=0;i<pil[].length_;i++){
+        //    if(pil[i].getNumeroMacchina()==x){
+        //      pil[i].auto[i].setVelocita(400);
+        //  }
         System.out.println("Auto truccata con successo");
 
     }
