@@ -1,4 +1,4 @@
-<h1>Progetto GranPrix Gruppo 6</h1>
+<h1>Progetto GranPrix Gruppo 7</h1>
 <p>Creato da Drosu Razvan, Martinelli Federico e Nucciarelli Giorgio</p>
 <p>Ecco i nostri tag <a href="https://github.com/SecretSatyr" >@SecretSatyr</a> <a href="https://github.com/fexmart05">@fexmart05</a> <a href="https://github.com/MovingN">@MovingN</a></p>
 <h2>Descrizione</h2>
