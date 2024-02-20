@@ -4,7 +4,6 @@
  */
 package grandprix6;
 
-import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -38,22 +37,24 @@ public class Giocatore extends Thread {
         int n = 0;
         while (n < 2) {
             System.out.println("Inserisca il numero di macchine:");
-            n = scelta.nextInt();
-            if (n < 2) {
+            int nMacchine = scelta.nextInt();
+            if (nMacchine < 2) {
                 System.out.println("Inserisca almeno 2 macchine");
             } else {
-                scegliNumeroAutoInGriglia(n);
                 n = 2;
+                scegliNAuto(nMacchine);
             }
         }
         n = 0;
         while (n < 1) {
             System.out.println("Inserisca la lunghezza del circuito:");
             n = scelta.nextInt();
-            if (n < 1) {
+
+            circ.setLunghezza(n);
+            int lungh = n;
+            if (lungh < 1) {
                 System.out.println("La lunghezza minima del circuito e' di almeno 1 KM");
             } else {
-                circ.setLunghezza(n);
                 n = 2;
             }
         }
@@ -61,42 +62,53 @@ public class Giocatore extends Thread {
         while (n < 1) {
             System.out.println("Inserisca il numero di giri:");
             n = scelta.nextInt();
-            if (n < 1) {
+            circ.setGiri(n);
+            int laps = n;
+            if (laps < 1) {
                 System.out.println("La gara dovra' durare almeno 1 giro");
             } else {
-                circ.setGiri(n);
                 n = 2;
             }
         }
         n = -1;
         while (n < 0) {
             System.out.println("Inserisca il numero di pit stop:");
-            n = scelta.nextInt();
-            if (n < 0) {
+            int pit = scelta.nextInt();
+            if (pit < 0) {
                 System.out.println("La gara potra' avere come minimo 0 pit stop ");
             } else {
-                circ.setPit(n);
                 n = 1;
             }
         }
         System.out.println("Configurazione gara terminata");
     }
 
-    public void scegliNumeroAutoInGriglia(int numeroAuto) {
-        Pilota.MAX_AUTO_IN_GRIGLIA = numeroAuto;
-    }
-
     public void cheat() {
+        System.out.println("Seleziona il numero della macchina da truccare");
+        int x=scelta.nextInt();
+        //inserire un for che perlustri tutti i numeri delle macchine
+        //if che verifichi se il numero della macchina corrisponde a quello in input
+        //aut[].setVelocita(400);
+        System.out.println("Auto truccata con successo");
 
     }
 
     public void safety() {
         System.out.println("Safety car in pista");
-//trovare un modo per settare ed interagire con la velocita' di tutte le auto
+        aut.setVelocita(45);
         System.out.println("Scelga il numero di giri in cui sara' presente la safety car:");
-        int lap_sf = scelta.nextInt();
-        //verificare i giri passati sotto Safety car
+        int lap_sf = 0;
+        while (lap_sf == 0) {
+            lap_sf = scelta.nextInt();
+            if (lap_sf < 1) {
+                System.out.println("Deve scegliere un numero di giri che valga almeno 1");
+            }
+
+        }
+        int lap_modify = circ.getGiri() - lap_sf;
+        circ.setGiri(lap_modify);
         System.out.println("Bandiera verde");
+        aut.setVelocita(130);//Trovare come far cambiare singolarmente per ogni macchina la sua velocità
     }
 
     public void cifra() {
@@ -121,5 +133,9 @@ public class Giocatore extends Thread {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void scegliNAuto(int macchine) {
+        Pilota.MAX_AUTO_IN_GRIGLIA = macchine;
     }
 }

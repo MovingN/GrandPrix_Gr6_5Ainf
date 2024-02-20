@@ -16,7 +16,7 @@ public class Pilota extends Thread {
     private String nazionalita;
     private int numeroMacchina;
     private Auto auto[];
-    
+
     public static int MAX_AUTO_IN_GRIGLIA = 25;
 
     public Pilota(String nome, String cognome, String nazionalita, int numeroMacchina) {
