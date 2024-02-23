@@ -15,6 +15,7 @@ public class Auto {
     private String marca;
     private String modello;
     private int velocita;
+    Circuito cir;
     private int contaOggetti=0;
     public Auto(String marca, String modello, int velocita) {
         this.marca = marca;
@@ -52,4 +53,19 @@ public class Auto {
     public int getLunghezza(){//per sapere la lunghezza dell'array auto mi servirà salvare una variabile che tenga conto degli oggetti creati
         return contaOggetti;
     }
+   public void calcolaDistanza(int lunghezzaCircuito) {
+    int distanzaTotale = cir.getLunghezza()*1000;
+    
+    int b = 0;
+    while (distanzaTotale > 0) {
+        for (int i = 0; i < velocita; i++) {
+            distanzaTotale -= velocita;
+            b++;
+            if (distanzaTotale <= 0) {
+
+                break;
+            }
+        }
+    }
+   }
 }
