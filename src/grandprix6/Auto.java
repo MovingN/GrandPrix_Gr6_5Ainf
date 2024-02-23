@@ -15,6 +15,7 @@ public class Auto {
     private String marca;
     private String modello;
     private int velocita;
+    Circuito cir;
 
     public Auto(String marca, String modello, int velocita) {
         this.marca = marca;
@@ -48,4 +49,20 @@ public class Auto {
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
         this.velocita = random_int;
     }
+    
+   public void calcolaDistanza(int lunghezzaCircuito) {
+    int distanzaTotale = cir.getLunghezza()*1000;
+    
+    int b = 0;
+    while (distanzaTotale > 0) {
+        for (int i = 0; i < velocita; i++) {
+            distanzaTotale -= velocita;
+            b++;
+            if (distanzaTotale <= 0) {
+
+                break;
+            }
+        }
+    }
+   }
 }
