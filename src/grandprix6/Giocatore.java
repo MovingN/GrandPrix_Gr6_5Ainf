@@ -57,6 +57,7 @@ public class Giocatore extends Thread {
                     pil[i].auto[i].setMarca(scelta.nextLine());
                     System.out.println("Inserisca il modello della macchina:");
                     pil[i].auto[i].setModello(scelta.nextLine());
+                    pil[i].auto[i].setVelocitaRand();
                     System.out.println("La macchina andra' a" + pil[i].auto[i].getVelocita() + "Km/h");
                 }
             }
@@ -102,31 +103,24 @@ public class Giocatore extends Thread {
     public void cheat() {
         System.out.println("Seleziona il numero della macchina da truccare");
         int x = scelta.nextInt();
-        //inserire un for che perlustri tutti i numeri delle macchine
-        // for(int i=0;i<pil[].length_;i++){
-        //    if(pil[i].getNumeroMacchina()==x){
-        //      pil[i].auto[i].setVelocita(400);
-        //  }
-        System.out.println("Auto truccata con successo");
+        for (int i = 0; i < Auto.contaOggetti ; i++) {
+            if (pil[i].getNumeroMacchina() == x) {
+                pil[i].auto[i].setVelocita(400);
+            }
+            System.out.println("Auto truccata con successo");
 
+        }
     }
 
     public void safety() {
+        int cambioMediaVelocita=0;
         System.out.println("Safety car in pista");
-        aut.setVelocita(45);
-        System.out.println("Scelga il numero di giri in cui sara' presente la safety car:");
-        int lap_sf = 0;
-        while (lap_sf == 0) {
-            lap_sf = scelta.nextInt();
-            if (lap_sf < 1) {
-                System.out.println("Deve scegliere un numero di giri che valga almeno 1");
-            }
-
+        for (int i = 0; i < Auto.contaOggetti ; i++) {
+            cambioMediaVelocita=pil[i].auto[i].getVelocita()- 35;
+            pil[i].auto[i].setVelocita(cambioMediaVelocita);
         }
-        int lap_modify = circ.getGiri() - lap_sf;
-        circ.setGiri(lap_modify);
+        System.out.println("Cambio media velocita' eseguito");
         System.out.println("Bandiera verde");
-        aut.setVelocita(130);//Trovare come far cambiare singolarmente per ogni macchina la sua velocità
     }
 
     public void cifra() {

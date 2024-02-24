@@ -16,6 +16,7 @@ public class Pilota extends Thread {
     private String nazionalita;
     private int numeroMacchina;
     public Auto auto[];
+    private int pos;
 
     public static int MAX_AUTO_IN_GRIGLIA = 25;
 
@@ -24,7 +25,7 @@ public class Pilota extends Thread {
         this.cognome = cognome;
         this.nazionalita = nazionalita;
         this.numeroMacchina = numeroMacchina;
-        auto = new Auto[MAX_AUTO_IN_GRIGLIA];//far comunicare giocatore e pilota per settare il numero di auto in griglia
+        auto = new Auto[MAX_AUTO_IN_GRIGLIA];//fa comunicare giocatore e pilota per settare il numero di auto in griglia
     }
 
     public String getNome() {
@@ -43,6 +44,10 @@ public class Pilota extends Thread {
         return numeroMacchina;
     }
 
+    public int getPos() {
+        return pos;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -58,4 +63,9 @@ public class Pilota extends Thread {
     public void setNumeroMacchina(int numeroMacchina) {
         this.numeroMacchina = numeroMacchina;
     }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
 }
