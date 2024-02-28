@@ -4,28 +4,25 @@
  */
 package grandprix6;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
-import java.util.Set;
 
-/**
- *
- * @author federico,giorgio,razvan
- */
 /**
  *
  * @author federico,giorgio,razvan
  */
 public class Giocatore extends Thread {
-//capire un modo per far comunicare il giocatore con tutte le altre classi
-//inserire dati del giocatore in un CSV
 
     private String nickname;
     private String password;
-    GiudiceDiGara GDC;
     Circuito circ;
     Pilota pil[];
-    Auto aut;
     Scanner scelta = new Scanner(System.in);
+    File giocatore = new File("giocatore.csv");
 
     public Giocatore(String nickname, String password) {
         this.nickname = nickname;
@@ -103,7 +100,7 @@ public class Giocatore extends Thread {
     public void cheat() {
         System.out.println("Seleziona il numero della macchina da truccare");
         int x = scelta.nextInt();
-        for (int i = 0; i < Auto.contaOggetti ; i++) {
+        for (int i = 0; i < Auto.contaOggetti; i++) {
             if (pil[i].getNumeroMacchina() == x) {
                 pil[i].auto[i].setVelocita(400);
             }
@@ -113,22 +110,57 @@ public class Giocatore extends Thread {
     }
 
     public void safety() {
-        int cambioMediaVelocita=0;
+        int cambioMediaVelocita = 0;
         System.out.println("Safety car in pista");
-        for (int i = 0; i < Auto.contaOggetti ; i++) {
-            cambioMediaVelocita=pil[i].auto[i].getVelocita()- 35;
+        for (int i = 0; i < Auto.contaOggetti; i++) {
+            cambioMediaVelocita = pil[i].auto[i].getVelocita() - 35;
             pil[i].auto[i].setVelocita(cambioMediaVelocita);
         }
         System.out.println("Cambio media velocita' eseguito");
         System.out.println("Bandiera verde");
     }
 
-    public void cifra() {
-
+    public String cifra() { //Scrittura dei dati del giocatore in un file .csv utilizzando la cifratura di Vigenere
+        nickname = nickname.toUpperCase();
+        password = password.toUpperCase();
+        String messaggio = nickname + password;
+        System.out.print("Inserisca la chiave: ");
+        String key = scelta.nextLine();
+        key = key.toUpperCase();
+        String messaggioCifrato = "";
+        for (int i = 0, j = 0; i < messaggio.length(); i++) {
+            char lettera = messaggio.charAt(i);
+            messaggioCifrato += (char) (((lettera - 65) + (key.charAt(j) - 65)) % 26 + 65);
+            j = ++j % key.length();
+        }
+        try (FileWriter writer = new FileWriter(giocatore)) {
+            writer.write(messaggioCifrato);
+        } catch (IOException ex) {
+            System.err.println("Problema con il FileWriter in Giocatore.cifra()");
+        }
+        System.out.println("L'username e la password corrispondono a:" + messaggioCifrato);
+        return messaggioCifrato;
     }
 
-    public void decifra() {
-
+    public String decifra() {
+        System.out.print("Inserisca la chiave: ");
+        String key = scelta.nextLine();
+        key = key.toUpperCase();
+        String messaggioDecifrato = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader(giocatore))) {
+            String messaggioCifrato = reader.readLine();
+            for (int i = 0, j = 0; i < messaggioCifrato.length(); i++) {
+                char letter = messaggioCifrato.charAt(i);
+                messaggioDecifrato += (char) ((letter - key.charAt(j) + 26) % 26 + 65);
+                j = ++j % key.length();
+            }
+        } catch (IOException ex) {
+            System.err.println("Problema con il BufferedReader in Giocatore.decifra()");
+        }
+        StringBuilder sb = new StringBuilder(messaggioDecifrato);
+        sb.insert(nickname.length(), ";");
+        System.out.println("L'username e la password corrispondono a:" + sb.toString());
+        return messaggioDecifrato;
     }
 
     public String getNickname() {

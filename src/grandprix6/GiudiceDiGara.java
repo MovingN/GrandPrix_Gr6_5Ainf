@@ -42,7 +42,7 @@ public class GiudiceDiGara extends Thread {
     }
 
     public void classifica() throws FileNotFoundException, IOException {
-        System.out.println("La classifica e' composta da:"); 
+        System.out.println("La classifica e' composta da:");
         BufferedReader br = new BufferedReader(new FileReader(classifica));
         String riga;
         while ((riga = br.readLine()) != null) {
@@ -52,10 +52,10 @@ public class GiudiceDiGara extends Thread {
 
     public void checkGara() {
         int maxSpeed = 350;
-        for(int i=0;i<Auto.contaOggetti;i++){
-            if (pil[i].auto[i].getVelocita()>maxSpeed){
+        for (int i = 0; i < Auto.contaOggetti; i++) {
+            if (pil[i].auto[i].getVelocita() > maxSpeed) {
                 pil[i].setPos(998);
-                System.out.println("Il pilota"+pil[i].getNome()+pil[i].getCognome()+"ha utilizzato una macchina truccata");
+                System.out.println("Il pilota" + pil[i].getNome() + pil[i].getCognome() + "ha utilizzato una macchina truccata");
             }
         }
     }
@@ -96,7 +96,7 @@ public class GiudiceDiGara extends Thread {
                     j++;
                 }
                 writer.write(pil[point].getNome() + ";" + pil[point].getCognome() + ";" + aut[point].getMarca() + ";" + aut[point].getVelocita() + ";" + i + 1);
-                 pil[point].setPos(999);
+                pil[point].setPos(999);
             }
             System.out.println("Classifica salvata su file: " + percorsoFile);
         } catch (IOException e) {

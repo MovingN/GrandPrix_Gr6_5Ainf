@@ -6,7 +6,7 @@ package grandprix6;
 
 /**
  *
- * @author federico
+ * @author federico,giorgio,razvan
  */
 public class Pilota extends Thread {
 
