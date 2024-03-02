@@ -67,5 +67,4 @@ public class Pilota extends Thread {
     public void setPos(int pos) {
         this.pos = pos;
     }
-
 }

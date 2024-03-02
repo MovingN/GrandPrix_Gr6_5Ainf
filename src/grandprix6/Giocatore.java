@@ -31,8 +31,16 @@ public class Giocatore extends Thread {
     }
 
     @Override
-    public void run() { //run sostituisce il metodo gara nell'UML
+    public void run() {
         int n = 0;
+        cifra();
+        System.out.println("Decifratura del file giocatore.csv");
+        decifra();
+        System.out.println("Inserisca il nome del giudice di gara");
+        String nome = scelta.nextLine();
+        System.out.println("Inserisca il cognome del giudice di gara");
+        String cognome = scelta.nextLine();
+        GiudiceDiGara GDC = new GiudiceDiGara(nome, cognome);
         while (n < 2) {
             System.out.println("Inserisca il numero di macchine:");
             int nMacchine = scelta.nextInt();
@@ -61,13 +69,13 @@ public class Giocatore extends Thread {
         }
         n = 0;
         while (n < 1) {
-            System.out.println("Inserisca la lunghezza del circuito:");
+            System.out.println("Inserisca la lunghezza del circuito in KM:");
             n = scelta.nextInt();
 
             circ.setLunghezza(n);
             int lungh = n;
             if (lungh < 1) {
-                System.out.println("La lunghezza minima del circuito e' di almeno 1 KM");
+                System.out.println("La lunghezza minima del circuito e' di almeno 1 KM e non possiamo avere valori con la virgola");
             } else {
                 n = 2;
             }
@@ -95,9 +103,15 @@ public class Giocatore extends Thread {
             }
         }
         System.out.println("Configurazione gara terminata");
+        System.out.println("Se desidera truccare una macchina digiti il numero 1");
+        if (scelta.nextInt() == 1) {
+            cheat();
+        }
+        GDC.start();
+
     }
 
-    public void cheat() {
+    public void cheat() {//Metodo con cui il giocatore puo truccare una macchina in base al numero di macchina inserito
         System.out.println("Seleziona il numero della macchina da truccare");
         int x = scelta.nextInt();
         for (int i = 0; i < Auto.contaOggetti; i++) {
@@ -121,7 +135,7 @@ public class Giocatore extends Thread {
     }
 
     public String cifra() { //Scrittura dei dati del giocatore in un file .csv utilizzando la cifratura di Vigenere
-        nickname = nickname.toUpperCase();
+        nickname = nickname.toUpperCase(); //Modifica la formattazione della variabile da minuscolo a maiuscolo
         password = password.toUpperCase();
         String messaggio = nickname + password;
         System.out.print("Inserisca la chiave: ");
@@ -131,6 +145,9 @@ public class Giocatore extends Thread {
         for (int i = 0, j = 0; i < messaggio.length(); i++) {
             char lettera = messaggio.charAt(i);
             messaggioCifrato += (char) (((lettera - 65) + (key.charAt(j) - 65)) % 26 + 65);
+            //La riga di codice calcola la posizione del carattere da cifrare e la posizione del carattere chiave corrispondente.
+            //Le due posizioni vengono sommate e il risultato viene "avvolto" su 26 lettere (usando il modulo 26).
+            //Il valore finale viene convertito in un carattere, ottenendo il carattere cifrato.
             j = ++j % key.length();
         }
         try (FileWriter writer = new FileWriter(giocatore)) {
@@ -142,7 +159,7 @@ public class Giocatore extends Thread {
         return messaggioCifrato;
     }
 
-    public String decifra() {
+    public String decifra() {//Lettura dei dati cifrati del giocatore da un file .csv, per poi decifrarli utilizzando la cifratura di Vigenere
         System.out.print("Inserisca la chiave: ");
         String key = scelta.nextLine();
         key = key.toUpperCase();
@@ -152,13 +169,16 @@ public class Giocatore extends Thread {
             for (int i = 0, j = 0; i < messaggioCifrato.length(); i++) {
                 char letter = messaggioCifrato.charAt(i);
                 messaggioDecifrato += (char) ((letter - key.charAt(j) + 26) % 26 + 65);
+                //La posizione del carattere chiave viene sottratta dalla posizione del carattere cifrato.
+                //Il risultato viene "avvolto" su 26 lettere (usando il modulo 26) per gestire eventuali valori negativi.
+                //Il valore finale viene convertito in un carattere, ottenendo il carattere decifrato.
                 j = ++j % key.length();
             }
         } catch (IOException ex) {
             System.err.println("Problema con il BufferedReader in Giocatore.decifra()");
         }
         StringBuilder sb = new StringBuilder(messaggioDecifrato);
-        sb.insert(nickname.length(), ";");
+        sb.insert(nickname.length(), ";");//inserisce il ; tra nickname e password
         System.out.println("L'username e la password corrispondono a:" + sb.toString());
         return messaggioDecifrato;
     }

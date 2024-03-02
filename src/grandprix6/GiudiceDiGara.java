@@ -23,45 +23,11 @@ public class GiudiceDiGara extends Thread {
     Pilota pil[];
     Auto aut[];
     Circuito cir;
+    Giocatore giocatore;
 
     public GiudiceDiGara(String nome, String cognome) {
         this.nome = nome;
         this.cognome = cognome;
-    }
-
-    public void printInizio() {
-        System.out.println("La gara e' iniziata");
-    }
-
-    public void printFine() {
-        System.out.println("La gara e' finita");
-    }
-
-    public void printVincitore() {
-        System.out.println("Il vincitore del GrandPrix e'"); //Vedere file CSV
-    }
-
-    public void classifica() throws FileNotFoundException, IOException {
-        System.out.println("La classifica e' composta da:");
-        BufferedReader br = new BufferedReader(new FileReader(classifica));
-        String riga;
-        while ((riga = br.readLine()) != null) {
-            System.out.println(riga);
-        }
-    }
-
-    public void checkGara() {
-        int maxSpeed = 350;
-        for (int i = 0; i < Auto.contaOggetti; i++) {
-            if (pil[i].auto[i].getVelocita() > maxSpeed) {
-                pil[i].setPos(998);
-                System.out.println("Il pilota" + pil[i].getNome() + pil[i].getCognome() + "ha utilizzato una macchina truccata");
-            }
-        }
-    }
-
-    public void checkIncidenti() {
-// inserire un if dove in qualche modo si riesca a capire l'avvenimento di un'incidente
     }
 
     public String getNome() {
@@ -80,6 +46,61 @@ public class GiudiceDiGara extends Thread {
         this.nome = nome;
     }
 
+    @Override
+    public void run() {
+        printInizio();
+        calcolaDistanza();//All'interno di questo metodo il giudice si assicura di controllare eventuali incidenti oltre che alla distanza effettuata dalle auto 
+        checkGara();
+        printFine();
+        scriviClassifica();
+        printVincitore();
+        classifica();
+    }
+
+    public void printInizio() {
+        System.out.println("La gara e' iniziata");
+    }
+
+    public void printFine() {
+        System.out.println("La gara e' finita");
+    }
+
+    public void printVincitore() {
+        try (BufferedReader leggi = new BufferedReader(new FileReader(classifica))) {
+            String primaRiga = leggi.readLine();//Nella prima riga abbiamo l'indice del file dove vengono indicate a cosa si riferiscono ogni singola colonna
+            String secondaRiga = leggi.readLine();
+            System.out.println("Il vincitore del GrandPrix e'" + secondaRiga);
+        } catch (IOException e) {
+            System.err.println("Errore buffered nel metodo GiudiceDiGara.printVincitore()");
+        }
+    }
+
+    public void classifica() {
+        System.out.println("La classifica e' composta da:");
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(classifica));
+            String riga;
+            while ((riga = br.readLine()) != null) {
+                System.out.println(riga);
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("Errore FileReader nel metodo GiudiceDiGara.classifica()");
+        } catch (IOException ex) {
+            System.err.println("Errore buffered nel metodo GiudiceDiGara.classifica()");
+        }
+    }
+
+    public void checkGara() {
+        int maxSpeed = 350;
+        for (int i = 0; i < Auto.contaOggetti; i++) {
+            if (pil[i].auto[i].getVelocita() > maxSpeed) {
+                pil[i].setPos(998);
+                System.out.println("Il pilota" + pil[i].getNome() + pil[i].getCognome() + "ha utilizzato una macchina truccata");
+            }
+        }
+    }
+
     public void scriviClassifica() {
         String percorsoFile = "classifica.csv";
         try (FileWriter writer = new FileWriter(percorsoFile, true)) {
@@ -89,7 +110,7 @@ public class GiudiceDiGara extends Thread {
             int point = 0;
             for (int i = 0; i < Auto.contaOggetti; i++) {
                 while (j < Auto.contaOggetti) {
-                    if (pil[j].getPos() < min) {
+                    if (pil[j].getPos() < min) {//Riordinamento in base alla posizione calcolata tramite calcolaDistanza()
                         point = j;
                         min = pil[j].getPos();
                     }
@@ -100,20 +121,53 @@ public class GiudiceDiGara extends Thread {
             }
             System.out.println("Classifica salvata su file: " + percorsoFile);
         } catch (IOException e) {
-            System.err.println("Errore durante la scrittura del file CSV: " + e.getMessage());
+            System.err.println("Errore durante la scrittura del file CSV");
         }
     }
 
-    public void calcolaDistanza() {//Serve per ottenere una variabile che possa permettere la comparazione tra piloti per la costruzione di una classifica ordinata in bvase a quante volte e' stata sottratta la velocita rispetto alla lunghezza del circuito 
+    public void calcolaDistanza() {//Serve per ottenere una variabile che possa permettere la comparazione tra piloti per la costruzione di una classifica ordinata in base a quante volte e' stata sottratta la velocita rispetto alla lunghezza del circuito 
         int distanzaTotale = cir.getLunghezza() * 1000;
-
+        int pit;
         int b = 0;
+        boolean incidenteValore = false;
         for (int i = 0; i < Auto.contaOggetti; i++) {
-            while (distanzaTotale > 0) {
+            System.out.println("Calcolo della distanza del pilota N" + pil[i].getNumeroMacchina());
+            while (distanzaTotale > 0 || incidente() == false) {
                 distanzaTotale -= pil[i].auto[i].getVelocita();
                 b++;
+                incidenteValore = incidente();
+                if (incidenteValore == true) {
+                    pil[i].setPos(998);
+                    System.out.println("Il pilota" + pil[i].getNome() + pil[i].getCognome() + "e' stato coinvolto in un incidente");
+                    giocatore.safety();
+                }
+            }
+            if (incidenteValore == false) {
+            for (int j = 0; j < cir.getPit(); j++) {
+                pit = tempoPitStop();
+                b += pit;
+                System.out.println("La durata del" + j + "pitstop corrisponde a" + pit); 
             }
             pil[i].setPos(b);
+            }
+        }
+    }
+
+    public int tempoPitStop() {
+        int min = 1;
+        int max = 3;
+        int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
+        return random_int;
+    }
+
+    public boolean incidente() {
+        int min = 1;
+        int max = 100;
+        int var = (int) Math.floor(Math.random() * (max - min + 1) + min);
+        if (var == 50) {
+            return true; //Incidente avvenuto
+        } else {
+            return false;//Incidente non avvenuto
         }
     }
 }
