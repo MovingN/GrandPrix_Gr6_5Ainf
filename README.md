@@ -8,8 +8,8 @@
 <ol>
 	<li>GrandPrix6 : Corrisponde alla classe main del progetto. </li>
 	<li>Giocatore : Classe che estende Thread che serve per svolgere tutte le azioni richieste dall'utente.</li>
-	<li>GiudiceDiGara : Classe che estende Thread che si occupa della comunicazione dell'inizio/fine gara e della comunicazione delle posizioni.</li>
+	<li>GiudiceDiGara : Classe che estende Thread che si occupa della comunicazione dell'inizio/fine gara e della gestione di quest'ultima, questa classe servirà al giocatore per decidere quale macchina truccare se ne ha bisogno.</li>
   <li>Circuito : Classe contenente gli attributi della lunghezza e dei giri.</li>
-  <li>Pilota : Classe contenente gli attributi del pilota, come nome, cognome, nazionalità e numero di macchina, quest'ultimo servirà al giocatore per decidere quale macchina truccare.</li>
+  <li>Pilota : Classe contenente gli attributi del pilota, come nome, cognome, nazionalità e numero di macchina.</li>
   <li>Auto : Classe contenente gli attributi dell'auto, come la velocità, la marca ed il modello, questa classe serve a mantenere le velocità di ogni singola auto, che verrà poi associata ad un pilota.</li>
 </ol>
