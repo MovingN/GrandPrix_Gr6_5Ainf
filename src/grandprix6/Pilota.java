@@ -8,7 +8,7 @@ package grandprix6;
  *
  * @author federico,giorgio,razvan
  */
-public class Pilota extends Thread {
+public class Pilota{
     private String nome;
     private String cognome;
     private String nazionalita;
